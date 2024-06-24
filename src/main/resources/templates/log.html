@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+    <meta http-equiv="UserContent-Type" content="text/html; charset=utf-8"/>
+    <title>查看日志</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<input type="hidden" id="path" th:value="${path}">
+</body>
+</html>
+<script>
+    getFloader();
+
+    function getFloader() {
+        $.ajax({
+            type: "GET",
+            url: '/logs/getLogFolder',
+            data: {
+                path: $("#path").val(),
+            },
+            async: false,
+            success: function (backData) {
+                if (backData.code == "3") {
+                    var html = '';
+                    for (var i = 0; i < backData.data.length; i++) {
+                        var url = backData.data[i];
+                        if (url.indexOf(".log") != -1) {
+                            html += '<h4><a href="file?filePath=' + url + '" target="_blank">' + url + '</h4>';
+                        } else {
+                            html += '<h4><a href="/logs/?path=' + url + '/" target="_self">' + url + '</h4>';
+                        }
+                    }
+                    $("body").append(html);
+                } else {
+                    alert(backData.msg);
+                }
+            },
+            error: function () {
+                alert("error request");
+            }
+        });
+    }
+</script>

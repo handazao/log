@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: log
+
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    mode: HTML5
+    mvc:
+      static-path-pattern: /static/**
+
+log:
+  file:
+    path: /logs
+
+
